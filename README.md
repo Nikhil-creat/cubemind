@@ -3,6 +3,17 @@ Interactive 3D 2x2 to 7x7 cubes, guides for Pyraminx, Skewb, Megaminx and Square
 
 Author: Nikhil Chary Sriramoju – github.com/Nikhil-creat – sriramojunikhil66@gmail.com
 
+#Designed and Developed by 
+# **NIKHIL CHARY SRIRAMOJU**
+BTech CSE (Final Year)
+
+- GitHub: [Nikhil-creat](https://github.com/Nikhil-creat)
+- LinkedIn: [nikhil-chary-sriramoju](https://in.linkedin.com/in/nikhil-chary-sriramoju-95041b38a)
+- Email: sriramojunikhil66@gmail.com
+- Instagram: [@nikhil__sriramoju](https://www.instagram.com/nikhil__sriramoju)
+- Facebook: [Profile](https://www.facebook.com/profile.php?id=100079201124141)
+
+
 ## Run
 - Open index.html, or `docker compose up --build` then visit http://localhost:8080
 ## Deploy on GitHub Pages
