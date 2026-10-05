@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>CubeMind Pro – Twisty Puzzle Lab | NIKHIL CHARY SRIRAMOJU</title>
+<title>CubeMind Pro – Twisty Puzzle Lab | Nikhil Chary Sriramoju</title>
 <link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg"><meta name="theme-color" content="#12101c"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Figtree:wght@400;600&display=swap">
 <style>
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
@@ -46,23 +46,29 @@ button.p{background:var(--a);border-color:var(--a);color:#fff}button:disabled{op
 a{color:var(--b)}footer{color:var(--mu);font-size:13px;padding:18px 0 40px;border-top:1px solid var(--ln);margin-top:24px}
 pre.dk{font:12px/1.5 monospace;background:var(--pn);border:1px solid var(--ln);border-radius:10px;padding:12px;overflow-x:auto}
 @media(max-width:960px){.lab{grid-template-columns:1fr}.rail{flex-direction:row;overflow-x:auto;padding-bottom:4px}.t{width:auto;white-space:nowrap}.cg{grid-template-columns:1fr}#stage{height:340px}.pane{height:auto;max-height:420px}}
+.lpn{border:1px solid var(--a);border-radius:12px;padding:12px;margin-top:10px;background:var(--pn)}.lpn[hidden]{display:none}.lpb{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.pb{height:6px;background:var(--ln);border-radius:4px;margin:8px 0}.pb i{display:block;height:100%;width:0;background:var(--ok);border-radius:4px;transition:width .3s}details{background:var(--pn);border:1px solid var(--ln);border-radius:10px;padding:10px 14px;margin:8px 0}summary{cursor:pointer;font-weight:600}
 </style>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"NIKHIL CHARY SRIRAMOJU","email":"sriramojunikhil66@gmail.com","url":"https://github.com/Nikhil-creat","alumniOf":"Vaagdevi College of Engineering"}</script></head>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Nikhil Chary Sriramoju","email":"sriramojunikhil66@gmail.com","url":"https://github.com/Nikhil-creat","alumniOf":"Vaagdevi College of Engineering"}</script></head>
 <body>
 <div class="w">
 <header><div class="lg">CubeMind Pro<small>twisty puzzle lab</small></div><div class="fl" style="margin:0"><span>Agentic AI</span><span>RAG</span><span>CNN</span><span>Docker</span></div></header>
 <h1>Learn to solve any twisty puzzle.</h1>
-<div class="fl"><span>NIKHIL CHARY SRIRAMOJU</span><span>B.Tech CSE, Class of 2027</span><span>ML Engineer Intern, Yuva Intern (NSDC)</span><span>Data Analytics Intern, Thiranex</span><span>NASSCOM, IBM SkillsBuild and Reliance Foundation certified</span></div><p class="lead">Pick a puzzle, scramble it in 3D, follow the step-by-step method, and ask the Claude coach when you get stuck.</p>
+<div class="fl"><span>Nikhil Chary Sriramoju</span><span>B.Tech CSE, Class of 2027</span><span>ML Engineer Intern, Yuva Intern (NSDC)</span><span>Data Analytics Intern, Thiranex</span><span>NASSCOM, IBM SkillsBuild and Reliance Foundation certified</span></div><p class="lead">Pick a puzzle, scramble it in 3D, follow the step-by-step method, and ask the Claude coach when you get stuck.</p>
 
 <div class="lab">
   <div class="rail" id="rail" role="tablist" aria-label="Puzzles"></div>
   <div>
     <div id="stage" aria-label="Interactive 3D puzzle"><div id="ov"></div></div>
     <div class="bar">
-      <button class="p" id="bSolve">Solve</button><button id="bScr">Scramble</button><button id="bRes">Reset</button><button id="bSpd">Speed: normal</button>
+      <button class="p" id="bSolve">Solve</button><button id="bScr">Scramble</button><button id="bRes">Reset</button><button id="bSpd">Speed: normal</button><button id="bLearn">Learn mode</button>
       <label class="st" id="lyW">Layer <select id="ly" style="font:inherit;background:var(--pn);color:var(--tx);border:1px solid var(--ln);border-radius:8px;padding:4px"></select></label>
     </div>
     <div class="mv" id="mv"></div>
+    <div class="lpn" id="lp" hidden><b>Agent coach</b>
+      <div id="lt" aria-live="polite"></div><div class="pb"><i id="pf"></i></div><div class="st" id="lh"></div>
+      <div class="lpb"><button id="lhB">Hint</button><button id="ln">Do next move</button><button id="la">Auto-play</button></div></div>
+    <div class="bar"><input id="ni" type="text" placeholder="Enter moves: R U R' U2" aria-label="Move sequence" style="flex:1;min-width:150px;font:inherit;color:var(--tx);background:var(--pn);border:1px solid var(--ln);border-radius:9px;padding:8px 10px"><button id="na">Apply</button><button id="nc">Copy scramble</button></div>
+    <div class="st" id="ne"></div><div class="st" id="fc"></div><div class="st" id="bs"></div>
     <div class="st">Moves from solved: <b id="sN">0</b> · Status: <b id="sS">Solved</b></div>
   </div>
   <div class="side">
@@ -77,6 +83,11 @@ pre.dk{font:12px/1.5 monospace;background:var(--pn);border:1px solid var(--ln);b
   </div>
 </div>
 
+<h2 style="font:800 22px Unbounded,sans-serif;margin:30px 0 4px">Notation and FAQ</h2>
+<details><summary>Move notation</summary>U D L R F B are the top, bottom, left, right, front and back faces. A letter alone is a clockwise quarter turn looking at that face. A prime (R') is counter-clockwise. A 2 (R2) is a half turn. On big cubes, 2R turns the second layer from the right.</details>
+<details><summary>How does Learn mode work?</summary>Scramble, switch on Learn mode, and try to undo the scramble yourself with the move buttons or keys. The agent says whether each move was right, gives hints, or plays the next move for you.</details>
+<details><summary>Is the solver a full method solver?</summary>The Solve button and the agent undo your own scramble, which works on every cube size. For the real solving methods, follow the Guide tab step by step and ask the coach.</details>
+<details><summary>Is my API key safe?</summary>It is stored only in your browser and sent only to Groq or Anthropic. Use a key with a low spending limit.</details>
 <h2 style="font:800 22px Unbounded,sans-serif;margin:30px 0 4px">Under the hood</h2>
 <div class="fl"><span>Planner</span><span>›</span><span>Retriever (RAG)</span><span>›</span><span>Solver</span><span>›</span><span>Verifier</span></div>
 <div class="cg">
@@ -91,14 +102,14 @@ pre.dk{font:12px/1.5 monospace;background:var(--pn);border:1px solid var(--ln);b
   vision: { build: ./vision }
   vdb:    { image: qdrant/qdrant }</pre>
 
-<h2 style="font:800 22px Unbounded,sans-serif;margin:30px 0 4px">Built by NIKHIL CHARY SRIRAMOJU</h2>
+<h2 style="font:800 22px Unbounded,sans-serif;margin:30px 0 4px">Built by Nikhil Chary Sriramoju</h2>
 <div class="cg">
  <div class="cd"><h3>Education</h3>B.Tech Computer Science and Engineering, Vaagdevi College of Engineering, 2023–2027. Thorrur, Telangana, India.</div>
  <div class="cd"><h3>Experience</h3>Machine Learning Engineer Intern, Yuva Intern (NSDC), Aug–Sep 2026.<br>Data Analytics Intern, Thiranex, Jul–Aug 2026.</div>
  <div class="cd"><h3>Certifications</h3>NASSCOM / Skill India: AI-Data Engineering &amp; Cloud Infrastructure Analyst. IBM SkillsBuild: AI Fundamentals. Reliance Foundation: AI/ML Engineer Foundation.</div>
 </div>
 <div class="fl"><a href="mailto:sriramojunikhil66@gmail.com">sriramojunikhil66@gmail.com</a><a href="https://github.com/Nikhil-creat" target="_blank" rel="noopener">GitHub</a><a href="https://in.linkedin.com/in/nikhil-chary-sriramoju-95041b38a" target="_blank" rel="noopener">LinkedIn</a></div>
-<footer>Keyboard: press U D L R F B to turn, hold Shift for the reverse turn. Installable as an app and works offline after the first visit.<br>© 2026 NIKHIL CHARY SRIRAMOJU. CubeMind Pro.</footer>
+<footer>Keyboard: press U D L R F B to turn, hold Shift for the reverse turn. Installable as an app and works offline after the first visit.<br>© 2026 Nikhil Chary Sriramoju. CubeMind Pro.</footer>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -152,20 +163,20 @@ function turn(m){return new Promise(function(res){
   (function st(t){var k=Math.min((t-t0)/dur,1);piv.rotation[ax]=d*(1-(1-k)*(1-k));
     if(k<1)requestAnimationFrame(st);else{set.forEach(function(c){root.attach(c);c.position.x=Math.round(c.position.x*2)/2;c.position.y=Math.round(c.position.y*2)/2;c.position.z=Math.round(c.position.z*2)/2});root.remove(piv);res()}})(t0);
 })}
-function ui(){$('sN').textContent=hist.length;$('sS').textContent=hist.length?'Scrambled':'Solved'}
+function ui(){$('sN').textContent=hist.length;$('sS').textContent=hist.length?'Scrambled':'Solved';lp()}
 function push(m){if(hist.length&&hist[hist.length-1]===inv(m))hist.pop();else hist.push(m);ui()}
-function lock(b){busy=b;document.querySelectorAll('.bar button,.mv button').forEach(function(x){x.disabled=b})}
+function lock(b){busy=b;document.querySelectorAll('.bar button,.mv button,.lpb button:not(#la)').forEach(function(x){x.disabled=b})}
 var lg=$('log'),wait=function(ms){return new Promise(function(r){setTimeout(r,ms)})};
 function say(t){lg.textContent+=t+'\n'}
 function tab(id){document.querySelectorAll('.pane').forEach(function(p){p.classList.toggle('on',p.id===id)});document.querySelectorAll('.tabs button').forEach(function(b){b.classList.toggle('on',b.dataset.p===id)})}
 document.querySelectorAll('.tabs button').forEach(function(b){b.onclick=function(){tab(b.dataset.p)}});
 function mk(){var mv=$('mv');mv.textContent='';var d=$('ly').value||1;
  ['U','D','L','R','F','B'].forEach(function(f){[f,f+"'"].forEach(function(s){var b=document.createElement('button');b.textContent=s;b.setAttribute('aria-label','Turn '+s);b.onclick=function(){manual((+$('ly').value>1?$('ly').value:'')+s)};mv.appendChild(b)})})}
-async function manual(m){if(busy)return;lock(true);await turn(m);push(m);lock(false)}
+async function manual(m){if(busy)return;lock(true);var L=hist.length;await turn(m);push(m);if(!hist.length&&T0){var t=(performance.now()-T0)/1000;T0=0;rec(t)}lock(false);fb(L,m)}
 async function scramble(){
   if(busy)return;lock(true);lg.textContent='';var last='',seq=[],len=Math.max(11,20+(n-3)*10),L=Math.floor(n/2);
   for(var i=0;i<len;i++){var f;do{f='UDLRFB'[Math.floor(Math.random()*6)]}while(f===last);last=f;var d=1+Math.floor(Math.random()*L);seq.push((d>1?d:'')+f+(Math.random()<.5?'':"'"))}
-  say('[scrambler] '+len+' moves');var o=si;si=2;for(var j=0;j<seq.length;j++){await turn(seq[j]);push(seq[j])}si=o;lock(false);
+  say('[scrambler] '+len+' moves');var o=si;si=2;for(var j=0;j<seq.length;j++){await turn(seq[j]);push(seq[j])}si=o;lastScr=seq.join(' ');tot=hist.length;T0=learn?0:performance.now();lock(false);
 }
 async function solve(){
   if(busy)return;lg.textContent='';if(!hist.length){say('[planner] already solved');return}
@@ -195,7 +206,7 @@ function pick(k){
     var L=Math.floor(n/2),s=$('ly');s.textContent='';for(var i=1;i<=L;i++){var o=document.createElement('option');o.value=i;o.textContent=i==1?'outer':'layer '+i;s.appendChild(o)}$('lyW').style.display=L>1?'':'none'}
   guide();
 }
-function guide(){
+function guide(){facts();
   var g=G[cur];$('gh').textContent='';var h=document.createElement('h3');h.style.cssText='margin:0 0 10px;font:600 15px Unbounded,sans-serif';h.textContent=g.n+' method';$('gh').appendChild(h);
   var out=$('gs');out.textContent='';
   g.s.forEach(function(s,i){var b=document.createElement('button');b.className='stp'+(i===stepI?' on':'');b.textContent=(i+1)+'. '+s[0];var sp=document.createElement('span');sp.textContent=s[1];b.appendChild(sp);
@@ -251,6 +262,31 @@ async function send(t){
 $('cs').onclick=function(){send($('ci').value)};$('ci').addEventListener('keydown',function(e){if(e.key==='Enter')send($('ci').value)});
 addEventListener('keydown',function(e){if(/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)||e.ctrlKey||e.metaKey||e.altKey)return;var f=e.key.toUpperCase();if(f.length==1&&'UDLRFB'.indexOf(f)>-1&&!G[cur].sim)manual(f+(e.shiftKey?"'":""))});
 if('serviceWorker' in navigator)addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})});
+
+/* ---- Learn mode, notation, facts, stats ---- */
+var learn=false,auto2=false,T0=0,tot=0,lastScr='';
+var FN={U:'top',D:'bottom',L:'left',R:'right',F:'front',B:'back'};
+var FA={'2':['3,674,160 positions','Any position can be solved in 11 turns or fewer.'],'3':['about 43 quintillion positions','Any position can be solved in 20 turns or fewer.'],'4':['about 7.4×10^45 positions','Parity cases are normal.'],'5':['about 2.8×10^74 positions','Three-piece edges and 3×3 centers.'],'6':['about 1.6×10^116 positions','Needs reduction and parity fixes.'],'7':['about 1.95×10^160 positions','Five-piece edges and 5×5 centers.'],'py':['933,120 positions (75,582,720 with tips)','Four-sided pyramid with tips.'],'sk':['3,149,280 positions','Corner-turning cube.'],'mg':['about 1.0×10^68 positions','Twelve-sided dodecahedron.'],'s1':['shape-shifting puzzle','Cube shape can change.']};
+function describe(m){var q=parse(m);return 'Turn the '+(q.d>1?'layer '+q.d+' from the ':'')+FN[q.f]+' face '+(q.p?'counter-clockwise':'clockwise')+' by a quarter turn, looking straight at that face.'}
+function facts(){var f=FA[cur],c=0,b=0;$('fc').textContent=G[cur].n+': '+f[0]+'. '+f[1];
+  try{b=+localStorage.getItem('cm_best_'+cur)||0;c=+localStorage.getItem('cm_cnt_'+cur)||0}catch(e){}
+  $('bs').textContent=c?'Your best: '+b.toFixed(1)+'s over '+c+' solve'+(c>1?'s':''):'Solve it by hand to set your first time.'}
+function rec(t){var k='cm_best_'+cur,b=0,c=0;try{b=+localStorage.getItem(k)||0;c=(+localStorage.getItem('cm_cnt_'+cur)||0)+1;if(!b||t<b){b=t;localStorage.setItem(k,b)}localStorage.setItem('cm_cnt_'+cur,c)}catch(e){}
+  $('bs').textContent='Solved in '+t.toFixed(1)+'s. Best: '+(b?b.toFixed(1):'-')+'s. Solves: '+c}
+function lp(){if(!learn)return;var L=hist.length;tot=Math.max(tot,L);$('pf').style.width=(tot?Math.round((1-L/tot)*100):100)+'%';
+  $('lt').textContent=L?'Your turn: '+L+' move'+(L>1?'s':'')+' left to undo. Every scramble is undone by reversing it. Try a move, or ask for a hint.':'Solved! Scramble again to keep practising.';if(!L)$('lh').textContent=''}
+function fb(L,m){if(!learn||!L)return;$('lh').textContent=hist.length<L?'Correct! '+m+' undid the last move.':'Not quite: '+m+' made it longer. Press '+inv(m)+' to take it back, or ask for a hint.'}
+async function doNext(){if(busy||!hist.length)return;lock(true);var m=inv(hist[hist.length-1]);$('lh').textContent='Agent plays '+m+'. '+describe(m);say('[agent] '+m+': '+describe(m));await turn(m);hist.pop();ui();lock(false)}
+async function autoPlay(){if(auto2){auto2=false;return}auto2=true;$('la').textContent='Pause';while(auto2&&hist.length){await doNext();await wait(450)}auto2=false;$('la').textContent='Auto-play'}
+async function applySeq(str){
+  if(busy||G[cur].sim)return;var out=[],ok=str.trim().length>0&&str.trim().split(/\s+/).every(function(t){var r=/^(\d)?([UDLRFB])(2?)('?)$/.exec(t);if(!r||(r[1]&&(+r[1]<2||+r[1]>Math.floor(n/2))))return false;var m=(r[1]||'')+r[2]+(r[4]&&!r[3]?"'":"");out.push(m);if(r[3])out.push(m);return true});
+  $('ne').textContent=ok?'':'Use moves like R U R\' U2 (layers 2 and up only on big cubes).';if(!ok)return;
+  lock(true);T0=0;for(var i=0;i<out.length;i++){await turn(out[i]);push(out[i])}lock(false)}
+$('bLearn').onclick=function(){learn=!learn;$('lp').hidden=!learn;$('bLearn').classList.toggle('on',learn);if(learn){T0=0;tot=hist.length}lp()};
+$('lhB').onclick=function(){if(!hist.length){$('lh').textContent='Nothing to undo. Scramble first.';return}var m=inv(hist[hist.length-1]);$('lh').textContent='Hint: play '+m+'. '+describe(m)};
+$('ln').onclick=doNext;$('la').onclick=autoPlay;
+$('na').onclick=function(){applySeq($('ni').value)};$('ni').addEventListener('keydown',function(e){if(e.key==='Enter')applySeq($('ni').value)});
+$('nc').onclick=function(){if(!lastScr){$('ne').textContent='Scramble first, then copy.';return}$('ni').value=lastScr;try{navigator.clipboard.writeText(lastScr)}catch(e){}$('ne').textContent='Scramble copied. Apply it later to replay it.'};
 mk();pick('3');
 })();
 </script>
