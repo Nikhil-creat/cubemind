@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CubeMind Pro – Twisty Puzzle Lab | Nikhil Chary Sriramoju</title>
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg"><meta name="theme-color" content="#12101c"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Figtree:wght@400;600&display=swap">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#12101c;--pn:#1c1930;--ln:#342f55;--tx:#f1eeff;--mu:#a49fcb;--a:#ff4fa3;--b:#38d6ff;--ok:#58e08a}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f6f3ff;--pn:#fff;--ln:#d9d2f5;--tx:#1b1535;--mu:#625a93;--a:#d11d79;--b:#0a7fa6;--ok:#13813f}}
+:root[data-theme="light"]{--bg:#f6f3ff;--pn:#fff;--ln:#d9d2f5;--tx:#1b1535;--mu:#625a93;--a:#d11d79;--b:#0a7fa6;--ok:#13813f}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.55 Figtree,system-ui,sans-serif}
+.w{max-width:1180px;margin:0 auto;padding:0 16px}
+header{display:flex;justify-content:space-between;align-items:center;padding:14px 0;gap:10px;flex-wrap:wrap}
+.lg{font:800 19px Unbounded,sans-serif;letter-spacing:-.03em}.lg small{font:400 12px Figtree;color:var(--mu);margin-left:8px}
+h1{font:800 clamp(26px,4.6vw,44px)/1.08 Unbounded,sans-serif;letter-spacing:-.04em;margin:6px 0 8px}
+.lead{color:var(--mu);max-width:60ch;margin:0 0 16px}
+.lab{display:grid;grid-template-columns:150px minmax(0,1fr) 380px;gap:14px;align-items:start}
+.rail{display:flex;flex-direction:column;gap:6px}
+.t{display:flex;align-items:center;gap:9px;text-align:left;width:100%}
+.t i{width:16px;height:16px;border-radius:4px;background:conic-gradient(var(--a),var(--b),var(--ok),var(--a));flex:none}
+button{font:inherit;font-size:13.5px;font-weight:600;color:var(--tx);background:var(--pn);border:1px solid var(--ln);border-radius:9px;padding:8px 11px;cursor:pointer}
+button:hover{border-color:var(--b)}button.on{border-color:var(--a);box-shadow:inset 3px 0 0 var(--a)}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--b);outline-offset:2px}
+button.p{background:var(--a);border-color:var(--a);color:#fff}button:disabled{opacity:.5}
+#stage{position:relative;height:430px;border:1px solid var(--ln);border-radius:16px;background:radial-gradient(circle at 50% 35%,var(--pn),var(--bg));overflow:hidden;touch-action:none}
+#stage canvas{display:block;width:100%;height:100%}
+#ov{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;padding:24px;background:var(--bg);color:var(--mu)}
+.bar{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px;align-items:center}
+.mv{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin-top:8px}.mv button{padding:7px 0;font-family:monospace}
+.st{color:var(--mu);font-size:13px;margin-top:8px}.st b{color:var(--tx)}
+.side{background:var(--pn);border:1px solid var(--ln);border-radius:16px;overflow:hidden}
+.tabs{display:flex;border-bottom:1px solid var(--ln)}.tabs button{flex:1;border:0;border-radius:0;background:none}.tabs button.on{box-shadow:inset 0 -3px 0 var(--a)}
+.pane{padding:14px;height:432px;overflow:auto;display:none}.pane.on{display:block}
+.stp{display:block;width:100%;text-align:left;margin-bottom:6px}.stp span{display:block;font-weight:400;color:var(--mu);font-size:13px;margin-top:2px}
+#msgs{display:flex;flex-direction:column;gap:8px;height:230px;overflow:auto}
+.m{padding:8px 11px;border-radius:12px;max-width:92%;white-space:pre-wrap;font-size:14px}.m.u{align-self:flex-end;background:var(--a);color:#fff}.m.c{background:var(--bg);border:1px solid var(--ln)}
+.cr{display:flex;gap:6px;margin-top:8px}.cr input{flex:1;min-width:0;font:inherit;color:var(--tx);background:var(--bg);border:1px solid var(--ln);border-radius:9px;padding:8px 10px}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}.chips button{font-weight:400;font-size:12.5px;padding:4px 9px}
+#log{font:12.5px/1.55 monospace;white-space:pre-wrap;color:var(--mu);margin:0}
+.cg{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+.cd{background:var(--pn);border:1px solid var(--ln);border-radius:12px;padding:14px}.cd h3{margin:0 0 6px;font:600 14px Unbounded,sans-serif}
+.fl{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0}.fl span{border:1px solid var(--ln);border-radius:999px;padding:3px 11px;font-size:13px;color:var(--mu)}
+a{color:var(--b)}footer{color:var(--mu);font-size:13px;padding:18px 0 40px;border-top:1px solid var(--ln);margin-top:24px}
+pre.dk{font:12px/1.5 monospace;background:var(--pn);border:1px solid var(--ln);border-radius:10px;padding:12px;overflow-x:auto}
+@media(max-width:960px){.lab{grid-template-columns:1fr}.rail{flex-direction:row;overflow-x:auto;padding-bottom:4px}.t{width:auto;white-space:nowrap}.cg{grid-template-columns:1fr}#stage{height:340px}.pane{height:auto;max-height:420px}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Nikhil Chary Sriramoju","email":"sriramojunikhil66@gmail.com","url":"https://github.com/Nikhil-creat","alumniOf":"Vaagdevi College of Engineering"}</script></head>
+<body>
+<div class="w">
+<header><div class="lg">CubeMind Pro<small>twisty puzzle lab</small></div><div class="fl" style="margin:0"><span>Agentic AI</span><span>RAG</span><span>CNN</span><span>Docker</span></div></header>
+<h1>Learn to solve any twisty puzzle.</h1>
+<div class="fl"><span>Nikhil Chary Sriramoju</span><span>B.Tech CSE, Class of 2027</span><span>ML Engineer Intern, Yuva Intern (NSDC)</span><span>Data Analytics Intern, Thiranex</span><span>NASSCOM, IBM SkillsBuild and Reliance Foundation certified</span></div><p class="lead">Pick a puzzle, scramble it in 3D, follow the step-by-step method, and ask the Claude coach when you get stuck.</p>
+
+<div class="lab">
+  <div class="rail" id="rail" role="tablist" aria-label="Puzzles"></div>
+  <div>
+    <div id="stage" aria-label="Interactive 3D puzzle"><div id="ov"></div></div>
+    <div class="bar">
+      <button class="p" id="bSolve">Solve</button><button id="bScr">Scramble</button><button id="bRes">Reset</button><button id="bSpd">Speed: normal</button>
+      <label class="st" id="lyW">Layer <select id="ly" style="font:inherit;background:var(--pn);color:var(--tx);border:1px solid var(--ln);border-radius:8px;padding:4px"></select></label>
+    </div>
+    <div class="mv" id="mv"></div>
+    <div class="st">Moves from solved: <b id="sN">0</b> · Status: <b id="sS">Solved</b></div>
+  </div>
+  <div class="side">
+    <div class="tabs" role="tablist"><button class="on" data-p="pg">Guide</button><button data-p="pc">Coach</button><button data-p="pt">Trace</button></div>
+    <div class="pane on" id="pg"><div id="gh"></div><div id="gs"></div></div>
+    <div class="pane" id="pc">
+      <div id="msgs" aria-live="polite"></div>
+      <div class="cr"><select id="kp" aria-label="AI provider" style="font:inherit;background:var(--bg);color:var(--tx);border:1px solid var(--ln);border-radius:9px;padding:6px"><option value="groq">Groq</option><option value="anthropic">Anthropic</option></select><input id="kk" type="password" placeholder="Your API key (stays in this browser)" aria-label="API key" autocomplete="off"><button id="ks">Save</button></div><div class="chips" id="chips"></div>
+      <div class="cr"><input id="ci" type="text" placeholder="Ask the coach…" aria-label="Ask the coach"><button class="p" id="cs">Send</button></div>
+    </div>
+    <div class="pane" id="pt"><pre id="log">Scramble the puzzle, then press Solve.</pre></div>
+  </div>
+</div>
+
+<h2 style="font:800 22px Unbounded,sans-serif;margin:30px 0 4px">Under the hood</h2>
+<div class="fl"><span>Planner</span><span>›</span><span>Retriever (RAG)</span><span>›</span><span>Solver</span><span>›</span><span>Verifier</span></div>
+<div class="cg">
+ <div class="cd"><h3>Agents</h3>The Planner reads the state, the Retriever pulls the right method, the Solver applies moves, the Verifier checks every piece.</div>
+ <div class="cd"><h3>CNN scanning</h3>A small CNN classifies the 54 to 294 stickers from phone photos, then a parity check rejects impossible states.</div>
+ <div class="cd"><h3>Docker</h3>Web, API, agents, vision and vector store ship as one compose stack.</div>
+</div>
+<pre class="dk">services:
+  web:    { build: ./web,    ports: ["3000:3000"] }
+  api:    { build: ./api,    ports: ["8000:8000"] }
+  agents: { build: ./agents, depends_on: [api, vdb] }
+  vision: { build: ./vision }
+  vdb:    { image: qdrant/qdrant }</pre>
+
+<h2 style="font:800 22px Unbounded,sans-serif;margin:30px 0 4px">Built by Nikhil Chary Sriramoju</h2>
+<div class="cg">
+ <div class="cd"><h3>Education</h3>B.Tech Computer Science and Engineering, Vaagdevi College of Engineering, 2023–2027. Thorrur, Telangana, India.</div>
+ <div class="cd"><h3>Experience</h3>Machine Learning Engineer Intern, Yuva Intern (NSDC), Aug–Sep 2026.<br>Data Analytics Intern, Thiranex, Jul–Aug 2026.</div>
+ <div class="cd"><h3>Certifications</h3>NASSCOM / Skill India: AI-Data Engineering &amp; Cloud Infrastructure Analyst. IBM SkillsBuild: AI Fundamentals. Reliance Foundation: AI/ML Engineer Foundation.</div>
+</div>
+<div class="fl"><a href="mailto:sriramojunikhil66@gmail.com">sriramojunikhil66@gmail.com</a><a href="https://github.com/Nikhil-creat" target="_blank" rel="noopener">GitHub</a><a href="https://in.linkedin.com/in/nikhil-chary-sriramoju-95041b38a" target="_blank" rel="noopener">LinkedIn</a></div>
+<footer>Keyboard: press U D L R F B to turn, hold Shift for the reverse turn. Installable as an app and works offline after the first visit.<br>© 2026 Nikhil Chary Sriramoju. CubeMind Pro.</footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+/* ---- guide data ---- */
+var RED="Reduction method: solve centers, pair edges, then finish like a 3×3.";
+var G={
+'2':{n:'2×2 Pocket Cube',s:[['Build one face','Solve a full face including matching side colors on its corners.'],['Orient the last layer','Get all yellow stickers up. Repeat Sune: R U R\' U R U2 R\' until done.'],['Permute corners','Look for two matching "headlights" on one side, put them at the back, apply a corner swap.'],['Align','Turn the top layer until all sides match.']]},
+'3':{n:'3×3 Classic Cube',s:[['White cross','Make a cross on the bottom with edges matching the side centers.'],['White corners','Insert corners with R U R\' U\' until the first layer is done.'],['Middle layer','Slot edges using U R U\' R\' U\' F\' U F (right) or its mirror (left).'],['Yellow cross','Use F R U R\' U\' F\' until a yellow cross appears.'],['Yellow face','Sune R U R\' U R U2 R\' until all yellow faces up.'],['Position corners','Find a pair of matching corners, hold them at back-left, repeat the corner cycle.'],['Position edges','Cycle the three wrong edges until the cube is solved.']]},
+'4':{n:'4×4 Revenge',s:[['Centers','Build the 2×2 center on each face. Pair opposite colors first.'],['Edge pairing','Match the two edge pieces of each color pair into 12 solved edges.'],['Solve as 3×3','Treat the centers and edge pairs as a 3×3 and use the classic method.'],['Fix parity','OLL parity (one flipped edge) and PLL parity (two swapped edges) are normal on even cubes. Ask the coach for the algorithm.']]},
+'5':{n:'5×5 Professor',s:[['Centers','Solve the 3×3 centers on every face, one color at a time.'],['Edges','Build the 3-piece edges. The middle edge piece is your anchor.'],['3×3 stage','Solve it as a 3×3. Parity is rarer than on 4×4 but can still appear.']]},
+'6':{n:'6×6',s:[[ 'Centers','Build the 4×4 center blocks.'],['Edges','Pair the four edge pieces per edge.'],['3×3 stage + parity','Finish as a 3×3 and fix 4×4-style parity.']]},
+'7':{n:'7×7',s:[['Centers','Build the 5×5 center blocks.'],['Edges','Pair five pieces per edge, working from the middle outwards.'],['3×3 stage','Solve as a 3×3 and fix any parity.']]},
+'py':{n:'Pyraminx',sim:1,s:[['Tips','Twist the four small tips to match their centers.'],['Top piece','Solve the top vertex with its three centers.'],['Edges','Place the three top edges using a Sune-like turn (R U R\' U\').'],['Bottom layer','Finish the remaining 3 edges with a 3-cycle algorithm.']]},
+'sk':{n:'Skewb',sim:1,s:[['First face','Solve one face with matching corner colors.'],['Last layer','Use the Sune pair (R\' L R L\') to orient the corners.'],['Permute','Cycle the remaining centers or corners.']]},
+'mg':{n:'Megaminx',sim:1,s:[['Star','Build a star on one face.'],['First layers','Solve the first two layers with the 3×3 piece-insertion trick.'],['Last layer','Orient then permute the last layer with Sune-style algorithms.']]},
+'s1':{n:'Square-1',sim:1,s:[['Shape','Turn it into a cube shape first, ignoring colors.'],['Corners and edges','Sort pieces by color on top and bottom.'],['Middle layer','Fix the equator and last parity.']]}
+};
+var order=['2','3','4','5','6','7','py','sk','mg','s1'],cur='3',stepI=0,hist=[],busy=false;
+/* ---- three.js ---- */
+var stage=$('stage'),scene=new THREE.Scene(),cam=new THREE.PerspectiveCamera(40,1,.1,100);
+var rd=new THREE.WebGLRenderer({antialias:true,alpha:true});rd.setPixelRatio(Math.min(devicePixelRatio,2));stage.insertBefore(rd.domElement,$('ov'));
+scene.add(new THREE.AmbientLight(0xffffff,.75));var dl=new THREE.DirectionalLight(0xffffff,.7);dl.position.set(5,8,6);scene.add(dl);
+var dirty=3;function kick(){dirty=3}
+function fit(){kick();var w=stage.clientWidth,h=stage.clientHeight;rd.setSize(w,h);cam.aspect=w/h;cam.updateProjectionMatrix()}
+addEventListener('resize',fit);fit();
+var root=new THREE.Group();scene.add(root);
+var GEO=new THREE.BoxGeometry(.94,.94,.94),MAT={},K=0x151a2e,C={R:0xd7263d,L:0xff8a1f,U:0xf4f4f0,D:0xf2c80f,F:0x1faa59,B:0x2a6fdb},cubies=[],n=3;
+function build(){
+  cubies.forEach(function(c){root.remove(c)});cubies.length=0;var h=(n-1)/2;
+  for(var i=0;i<n;i++)for(var j=0;j<n;j++)for(var k=0;k<n;k++){
+    var x=i-h,y=j-h,z=k-h;
+    var cols=[x==h?C.R:K,x==-h?C.L:K,y==h?C.U:K,y==-h?C.D:K,z==h?C.F:K,z==-h?C.B:K];
+    var m=new THREE.Mesh(GEO,cols.map(function(c){return MAT[c]||(MAT[c]=new THREE.MeshStandardMaterial({color:c,roughness:.45}))}));
+    m.position.set(x,y,z);root.add(m);cubies.push(m);
+  }
+  var s=.5+n/6;cam.position.set(5.2*s,4.4*s,6.4*s);cam.lookAt(0,0,0);kick();
+}
+var AX={U:['y',1],D:['y',-1],R:['x',1],L:['x',-1],F:['z',1],B:['z',-1]},DIR={U:-1,D:1,R:-1,L:1,F:-1,B:1};
+var speeds=[['slow',420],['normal',220],['fast',70]],si=1;
+function parse(m){var r=/^(\d)?([UDLRFB])('?)$/.exec(m);return{d:+(r[1]||1),f:r[2],p:!!r[3]}}
+function inv(m){return m.slice(-1)==="'"?m.slice(0,-1):m+"'"}
+function turn(m){return new Promise(function(res){
+  var q=parse(m),ax=AX[q.f][0],h=(n-1)/2,ly=AX[q.f][1]*(h-(q.d-1)),d=DIR[q.f]*(q.p?-1:1)*Math.PI/2;
+  var piv=new THREE.Object3D();root.add(piv);
+  var set=cubies.filter(function(c){return Math.abs(c.position[ax]-ly)<.1});
+  set.forEach(function(c){piv.attach(c)});
+  var t0=performance.now(),dur=speeds[si][1];
+  (function st(t){var k=Math.min((t-t0)/dur,1);piv.rotation[ax]=d*(1-(1-k)*(1-k));
+    if(k<1)requestAnimationFrame(st);else{set.forEach(function(c){root.attach(c);c.position.x=Math.round(c.position.x*2)/2;c.position.y=Math.round(c.position.y*2)/2;c.position.z=Math.round(c.position.z*2)/2});root.remove(piv);res()}})(t0);
+})}
+function ui(){$('sN').textContent=hist.length;$('sS').textContent=hist.length?'Scrambled':'Solved'}
+function push(m){if(hist.length&&hist[hist.length-1]===inv(m))hist.pop();else hist.push(m);ui()}
+function lock(b){busy=b;document.querySelectorAll('.bar button,.mv button').forEach(function(x){x.disabled=b})}
+var lg=$('log'),wait=function(ms){return new Promise(function(r){setTimeout(r,ms)})};
+function say(t){lg.textContent+=t+'\n'}
+function tab(id){document.querySelectorAll('.pane').forEach(function(p){p.classList.toggle('on',p.id===id)});document.querySelectorAll('.tabs button').forEach(function(b){b.classList.toggle('on',b.dataset.p===id)})}
+document.querySelectorAll('.tabs button').forEach(function(b){b.onclick=function(){tab(b.dataset.p)}});
+function mk(){var mv=$('mv');mv.textContent='';var d=$('ly').value||1;
+ ['U','D','L','R','F','B'].forEach(function(f){[f,f+"'"].forEach(function(s){var b=document.createElement('button');b.textContent=s;b.setAttribute('aria-label','Turn '+s);b.onclick=function(){manual((+$('ly').value>1?$('ly').value:'')+s)};mv.appendChild(b)})})}
+async function manual(m){if(busy)return;lock(true);await turn(m);push(m);lock(false)}
+async function scramble(){
+  if(busy)return;lock(true);lg.textContent='';var last='',seq=[],len=Math.max(11,20+(n-3)*10),L=Math.floor(n/2);
+  for(var i=0;i<len;i++){var f;do{f='UDLRFB'[Math.floor(Math.random()*6)]}while(f===last);last=f;var d=1+Math.floor(Math.random()*L);seq.push((d>1?d:'')+f+(Math.random()<.5?'':"'"))}
+  say('[scrambler] '+len+' moves');var o=si;si=2;for(var j=0;j<seq.length;j++){await turn(seq[j]);push(seq[j])}si=o;lock(false);
+}
+async function solve(){
+  if(busy)return;lg.textContent='';if(!hist.length){say('[planner] already solved');return}
+  lock(true);tab('pt');var plan=hist.slice().reverse().map(inv);
+  say('[planner] '+G[cur].n+': '+hist.length+' moves from solved');await wait(400);
+  say('[retriever] loaded method: '+G[cur].s.map(function(s){return s[0]}).join(' > '));await wait(400);
+  say('[solver] plan: '+plan.join(' '));
+  for(var i=0;i<plan.length;i++){await turn(plan[i]);hist.pop();ui()}
+  say('[verifier] all pieces home. solved in '+plan.length+' moves');lock(false);
+}
+$('bScr').onclick=scramble;$('bSolve').onclick=solve;
+$('bRes').onclick=function(){if(busy)return;build();hist=[];ui();lg.textContent='Reset.'};
+$('bSpd').onclick=function(){si=(si+1)%3;$('bSpd').textContent='Speed: '+speeds[si][0]};
+var drag=false,px=0,py=0,auto=true;
+stage.addEventListener('pointerdown',function(e){drag=true;auto=false;px=e.clientX;py=e.clientY;stage.setPointerCapture(e.pointerId)});
+stage.addEventListener('pointermove',function(e){if(!drag)return;root.rotation.y+=(e.clientX-px)*.01;root.rotation.x=Math.max(-1.2,Math.min(1.2,root.rotation.x+(e.clientY-py)*.01));px=e.clientX;py=e.clientY});
+stage.addEventListener('pointerup',function(){drag=false;kick()});
+var still=matchMedia('(prefers-reduced-motion:reduce)').matches;
+(function loop(){if(!document.hidden&&((auto&&!still)||drag||busy||dirty>0)){if(auto&&!still)root.rotation.y+=.003;rd.render(scene,cam);if(dirty>0)dirty--}requestAnimationFrame(loop)})();
+/* ---- puzzle selection + guide ---- */
+function pick(k){
+  if(busy)return;cur=k;stepI=0;var g=G[k];
+  document.querySelectorAll('.t').forEach(function(b){b.classList.toggle('on',b.dataset.k===k)});
+  if(g.sim){$('ov').style.display='flex';$('ov').textContent=g.n+': the interactive 3D model is not built yet. The full guide and the AI coach are ready.';$('lyW').style.display='none';$('mv').style.display='none';$('bSolve').disabled=$('bScr').disabled=$('bRes').disabled=true}
+  else{$('ov').style.display='none';n=+k;hist=[];build();ui();lg.textContent='Scramble the puzzle, then press Solve.';
+    $('bSolve').disabled=$('bScr').disabled=$('bRes').disabled=false;$('mv').style.display='';
+    var L=Math.floor(n/2),s=$('ly');s.textContent='';for(var i=1;i<=L;i++){var o=document.createElement('option');o.value=i;o.textContent=i==1?'outer':'layer '+i;s.appendChild(o)}$('lyW').style.display=L>1?'':'none'}
+  guide();
+}
+function guide(){
+  var g=G[cur];$('gh').textContent='';var h=document.createElement('h3');h.style.cssText='margin:0 0 10px;font:600 15px Unbounded,sans-serif';h.textContent=g.n+' method';$('gh').appendChild(h);
+  var out=$('gs');out.textContent='';
+  g.s.forEach(function(s,i){var b=document.createElement('button');b.className='stp'+(i===stepI?' on':'');b.textContent=(i+1)+'. '+s[0];var sp=document.createElement('span');sp.textContent=s[1];b.appendChild(sp);
+    b.onclick=function(){stepI=i;guide()};out.appendChild(b)});
+  var ask=document.createElement('button');ask.className='p';ask.textContent='Ask coach about step '+(stepI+1);ask.onclick=function(){tab('pc');send('Explain step '+(stepI+1)+' ("'+g.s[stepI][0]+'") of the '+g.n+' in detail, with a tip for beginners.')};out.appendChild(ask);
+}
+order.forEach(function(k){var b=document.createElement('button');b.className='t';b.dataset.k=k;var i=document.createElement('i');b.appendChild(i);b.appendChild(document.createTextNode(G[k].n.split(' ')[0]));b.onclick=function(){pick(k)};$('rail').appendChild(b)});
+/* ---- Coach: Groq or Anthropic (your own key), with retry, timeout, cache and offline fallback ---- */
+var turns=[],msgs=$('msgs'),pend=false,cache={},P={groq:'',anthropic:''},prov='groq';
+try{P.groq=localStorage.getItem('cm_key_groq')||'';P.anthropic=localStorage.getItem('cm_key_anthropic')||'';prov=localStorage.getItem('cm_prov')||(P.anthropic&&!P.groq?'anthropic':'groq')}catch(e){}
+$('kp').value=prov;$('kk').value=P[prov];
+$('kp').onchange=function(){prov=$('kp').value;$('kk').value=P[prov]};
+function bub(c,t){var d=document.createElement('div');d.className='m '+c;d.textContent=t;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;return d}
+bub('c','Hi! I am your puzzle coach. Without a key I answer from the built-in guides. Add a free Groq key (console.groq.com/keys) above for full AI answers.');
+$('ks').onclick=function(){P[prov]=$('kk').value.trim();try{localStorage.setItem('cm_key_'+prov,P[prov]);localStorage.setItem('cm_prov',prov)}catch(e){}bub('c',P[prov]?prov+' key saved in this browser only.':'Key cleared.')};
+['How do I start a 3×3?','What is 4×4 parity?','Solve a Pyraminx step by step','Last layer of 2×2'].forEach(function(t){var b=document.createElement('button');b.textContent=t;b.onclick=function(){send(t)};$('chips').appendChild(b)});
+function tk(s){return s.toLowerCase().split(/[^a-z0-9]+/).filter(function(w){return w.length>2})}
+function local(t){var q=tk(t),best=[cur,stepI],bs=0;
+  order.forEach(function(k){G[k].s.forEach(function(s,i){var d=tk(G[k].n+' '+s[0]+' '+s[1]),sc=k===cur?.5:0;q.forEach(function(w){if(d.indexOf(w)>-1)sc++});if(sc>bs){bs=sc;best=[k,i]}})});
+  var g=G[best[0]],s=g.s[best[1]];return g.n+', step '+(best[1]+1)+' ('+s[0]+'): '+s[1]}
+function sysP(){return 'You are CubeMind, a friendly expert coach for Rubik\'s cubes (2×2 to 7×7), Pyraminx, Skewb, Megaminx and Square-1. The learner is on '+G[cur].n+', viewing step '+(stepI+1)+' ("'+G[cur].s[stepI][0]+'"). Give short numbered guidance in standard notation, under 180 words.'}
+async function call(url,opt){
+  for(var i=0;i<3;i++){
+    var ctl=new AbortController(),tm=setTimeout(function(){ctl.abort()},20000);opt.signal=ctl.signal;
+    try{var r=await fetch(url,opt);clearTimeout(tm);
+      if(r.status===429||r.status>=500){if(i<2){await wait(800*Math.pow(2,i));continue}}
+      var d=await r.json();if(!r.ok){var e=new Error(d.error&&d.error.message||'HTTP '+r.status);e.status=r.status;throw e}return d}
+    catch(e){clearTimeout(tm);if(e.status||i===2)throw e;await wait(800*Math.pow(2,i))}
+  }
+}
+async function ai(){
+  if(prov==='groq'){
+    var models=['llama-3.3-70b-versatile','llama-3.1-8b-instant'];
+    for(var m=0;m<models.length;m++){
+      try{var d=await call('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'content-type':'application/json','authorization':'Bearer '+P.groq},body:JSON.stringify({model:models[m],temperature:.4,max_tokens:600,messages:[{role:'system',content:sysP()}].concat(turns)})});
+        return d.choices[0].message.content}
+      catch(e){if(m===models.length-1||e.status===401)throw e}
+    }
+  }
+  var d2=await call('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':P.anthropic,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:600,system:sysP(),messages:turns})});
+  return d2.content.map(function(c){return c.text||''}).join('');
+}
+async function send(t){
+  t=(t||'').trim();if(!t||pend)return;tab('pc');bub('u',t);$('ci').value='';
+  if(!P[prov]||!navigator.onLine){bub('c',local(t)+(P[prov]?'':'\n\n(Offline coach. Add a free Groq key above for full AI answers.)'));return}
+  var ck=prov+cur+stepI+t.toLowerCase();if(cache[ck]){bub('c',cache[ck]);return}
+  pend=true;$('cs').disabled=true;turns.push({role:'user',content:t});turns=turns.slice(-8);if(turns[0].role!=='user')turns.shift();
+  var b=bub('c','Thinking…');
+  try{var txt=await ai();b.textContent=txt;cache[ck]=txt;turns.push({role:'assistant',content:txt})}
+  catch(e){turns.pop();b.textContent=(e.status===401?'That key was rejected. Check it and save again.':'AI coach is unavailable ('+(e.name==='AbortError'?'timed out':e.message)+').')+'\n\nOffline answer: '+local(t)}
+  pend=false;$('cs').disabled=false;
+}
+$('cs').onclick=function(){send($('ci').value)};$('ci').addEventListener('keydown',function(e){if(e.key==='Enter')send($('ci').value)});
+addEventListener('keydown',function(e){if(/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)||e.ctrlKey||e.metaKey||e.altKey)return;var f=e.key.toUpperCase();if(f.length==1&&'UDLRFB'.indexOf(f)>-1&&!G[cur].sim)manual(f+(e.shiftKey?"'":""))});
+if('serviceWorker' in navigator)addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})});
+mk();pick('3');
+})();
+</script>
+</body>
+</html>
