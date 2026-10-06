@@ -1,7 +1,7 @@
 # CubeMind Pro – Twisty Puzzle Lab
 Interactive 3D 2x2 to 7x7 cubes, guides for Pyraminx, Skewb, Megaminx and Square-1, AI coach (bring your own Anthropic key, or use the offline coach), PWA, Docker.
 
-Author: Nikhil Chary Sriramoju – github.com/Nikhil-creat – sriramojunikhil66@gmail.com
+Author: NIKHIL CHARY SRIRAMOJU – github.com/Nikhil-creat – sriramojunikhil66@gmail.com
 
 ## Run
 - Open index.html, or `docker compose up --build` then visit http://localhost:8080
@@ -23,3 +23,6 @@ The in-browser solver reverses your own scramble. API keys are stored only in yo
 ## v4
 - Fix: Groq retired its older Llama models, so the coach now asks Groq which models your key can use (prefers openai/gpt-oss-120b, then 20b) and falls back automatically.
 - Added: algorithm library with Apply buttons, learning path, resource links, light/dark toggle, share button, SEO and social tags, tighter mobile layout.
+
+## v5
+- Name shown in uppercase everywhere, expanded credentials (education, internships, certifications, skills, social links), puzzle atlas table, stats strip, back-to-top.
