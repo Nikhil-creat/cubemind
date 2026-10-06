@@ -19,3 +19,7 @@ The in-browser solver reverses your own scramble. API keys are stored only in yo
 - Learn mode: scramble, then undo it yourself; the agent checks each move, gives hints, explains turns in words, or plays the next move. Auto-play and progress bar included.
 - Notation box (apply or replay move strings, copy last scramble), solve timer with best times saved in your browser, puzzle facts, notation guide and FAQ.
 - The Solve and agent playback undo your own scramble (works on all cube sizes). Real solving methods are in the Guide tab.
+
+## v4
+- Fix: Groq retired its older Llama models, so the coach now asks Groq which models your key can use (prefers openai/gpt-oss-120b, then 20b) and falls back automatically.
+- Added: algorithm library with Apply buttons, learning path, resource links, light/dark toggle, share button, SEO and social tags, tighter mobile layout.

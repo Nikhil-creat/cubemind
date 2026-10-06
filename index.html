@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>CubeMind Pro – Twisty Puzzle Lab | Nikhil Chary Sriramoju</title>
-<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg"><meta name="theme-color" content="#12101c"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Figtree:wght@400;600&display=swap">
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg"><meta name="theme-color" content="#12101c"><meta name="description" content="CubeMind Pro: interactive 3D Rubik's cube lab (2x2 to 7x7) with Learn mode, an AI puzzle coach and guides for Pyraminx, Skewb, Megaminx and Square-1. By Nikhil Chary Sriramoju."><meta property="og:title" content="CubeMind Pro, Twisty Puzzle Lab"><meta property="og:description" content="Learn to solve any twisty puzzle with a 3D cube, step-by-step agent coach and guides."><meta property="og:type" content="website"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Figtree:wght@400;600&display=swap">
 <style>
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
 --bg:#12101c;--pn:#1c1930;--ln:#342f55;--tx:#f1eeff;--mu:#a49fcb;--a:#ff4fa3;--b:#38d6ff;--ok:#58e08a}
@@ -47,11 +47,12 @@ a{color:var(--b)}footer{color:var(--mu);font-size:13px;padding:18px 0 40px;borde
 pre.dk{font:12px/1.5 monospace;background:var(--pn);border:1px solid var(--ln);border-radius:10px;padding:12px;overflow-x:auto}
 @media(max-width:960px){.lab{grid-template-columns:1fr}.rail{flex-direction:row;overflow-x:auto;padding-bottom:4px}.t{width:auto;white-space:nowrap}.cg{grid-template-columns:1fr}#stage{height:340px}.pane{height:auto;max-height:420px}}
 .lpn{border:1px solid var(--a);border-radius:12px;padding:12px;margin-top:10px;background:var(--pn)}.lpn[hidden]{display:none}.lpb{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.pb{height:6px;background:var(--ln);border-radius:4px;margin:8px 0}.pb i{display:block;height:100%;width:0;background:var(--ok);border-radius:4px;transition:width .3s}details{background:var(--pn);border:1px solid var(--ln);border-radius:10px;padding:10px 14px;margin:8px 0}summary{cursor:pointer;font-weight:600}
+#stage{height:clamp(300px,55vh,470px)}.al{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 0;border-bottom:1px solid var(--ln)}.al code{font:13px monospace;color:var(--b);word-break:break-word}.rs{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}.rs a{display:block;background:var(--pn);border:1px solid var(--ln);border-radius:12px;padding:12px;text-decoration:none;color:var(--tx)}.rs a:hover,.rs a:focus-visible{border-color:var(--a)}.rs span{display:block;color:var(--mu);font-size:13px}@media(max-width:480px){.mv{grid-template-columns:repeat(4,1fr)}.w{padding:0 12px}}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Nikhil Chary Sriramoju","email":"sriramojunikhil66@gmail.com","url":"https://github.com/Nikhil-creat","alumniOf":"Vaagdevi College of Engineering"}</script></head>
 <body>
 <div class="w">
-<header><div class="lg">CubeMind Pro<small>twisty puzzle lab</small></div><div class="fl" style="margin:0"><span>Agentic AI</span><span>RAG</span><span>CNN</span><span>Docker</span></div></header>
+<header><div class="lg">CubeMind Pro<small>twisty puzzle lab</small></div><div class="fl" style="margin:0"><span>Agentic AI</span><span>RAG</span><span>CNN</span><span>Docker</span></div><div class="fl" style="margin:0"><button id="th" aria-label="Switch light or dark theme">Theme</button><button id="sh">Share</button></div></header>
 <h1>Learn to solve any twisty puzzle.</h1>
 <div class="fl"><span>Nikhil Chary Sriramoju</span><span>B.Tech CSE, Class of 2027</span><span>ML Engineer Intern, Yuva Intern (NSDC)</span><span>Data Analytics Intern, Thiranex</span><span>NASSCOM, IBM SkillsBuild and Reliance Foundation certified</span></div><p class="lead">Pick a puzzle, scramble it in 3D, follow the step-by-step method, and ask the Claude coach when you get stuck.</p>
 
@@ -83,6 +84,26 @@ pre.dk{font:12px/1.5 monospace;background:var(--pn);border:1px solid var(--ln);b
   </div>
 </div>
 
+<h2 style="font:800 22px Unbounded,sans-serif;margin:30px 0 4px">Algorithm library</h2>
+<p class="lead">Tap Apply to run an algorithm on the 3D cube and watch what it does (3×3 and larger).</p>
+<div class="box2" id="algs">
+ <div class="al"><div><b>Sexy move</b> <code>R U R' U'</code></div><button data-alg="R U R' U'">Apply</button></div>
+ <div class="al"><div><b>Sune</b> <code>R U R' U R U2 R'</code></div><button data-alg="R U R' U R U2 R'">Apply</button></div>
+ <div class="al"><div><b>Anti-Sune</b> <code>R U2 R' U' R U' R'</code></div><button data-alg="R U2 R' U' R U' R'">Apply</button></div>
+ <div class="al"><div><b>T-perm</b> <code>R U R' U' R' F R2 U' R' U' R U R' F'</code></div><button data-alg="R U R' U' R' F R2 U' R' U' R U R' F'">Apply</button></div>
+</div>
+<h2 style="font:800 22px Unbounded,sans-serif;margin:30px 0 4px">Learning path</h2>
+<ol class="lead"><li>Learn the notation and turn each face until it feels natural.</li><li>Solve the 2×2 with the layer method.</li><li>Learn the beginner 3×3 method from the Guide tab.</li><li>Practise with Learn mode, then time yourself.</li><li>Move to 4×4 and 5×5 using reduction, then try Pyraminx and Skewb.</li></ol>
+<h2 style="font:800 22px Unbounded,sans-serif;margin:30px 0 4px">Resources</h2>
+<div class="rs">
+ <a href="https://ruwix.com" target="_blank" rel="noopener">Ruwix<span>Tutorials and solvers for many puzzles</span></a>
+ <a href="https://jperm.net" target="_blank" rel="noopener">J Perm<span>Video tutorials and algorithm lists</span></a>
+ <a href="https://www.speedsolving.com/wiki" target="_blank" rel="noopener">SpeedSolving Wiki<span>Methods and puzzle encyclopedia</span></a>
+ <a href="https://alg.cubing.net" target="_blank" rel="noopener">alg.cubing.net<span>Animate any algorithm</span></a>
+ <a href="https://cstimer.net" target="_blank" rel="noopener">csTimer<span>Free solve timer and scrambler</span></a>
+ <a href="https://www.worldcubeassociation.org" target="_blank" rel="noopener">World Cube Association<span>Official competitions and rankings</span></a>
+ <a href="http://kociemba.org" target="_blank" rel="noopener">Kociemba's site<span>Two-phase algorithm and Cube Explorer</span></a>
+</div>
 <h2 style="font:800 22px Unbounded,sans-serif;margin:30px 0 4px">Notation and FAQ</h2>
 <details><summary>Move notation</summary>U D L R F B are the top, bottom, left, right, front and back faces. A letter alone is a clockwise quarter turn looking at that face. A prime (R') is counter-clockwise. A 2 (R2) is a half turn. On big cubes, 2R turns the second layer from the right.</details>
 <details><summary>How does Learn mode work?</summary>Scramble, switch on Learn mode, and try to undo the scramble yourself with the move buttons or keys. The agent says whether each move was right, gives hints, or plays the next move for you.</details>
@@ -221,7 +242,7 @@ $('kp').value=prov;$('kk').value=P[prov];
 $('kp').onchange=function(){prov=$('kp').value;$('kk').value=P[prov]};
 function bub(c,t){var d=document.createElement('div');d.className='m '+c;d.textContent=t;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;return d}
 bub('c','Hi! I am your puzzle coach. Without a key I answer from the built-in guides. Add a free Groq key (console.groq.com/keys) above for full AI answers.');
-$('ks').onclick=function(){P[prov]=$('kk').value.trim();try{localStorage.setItem('cm_key_'+prov,P[prov]);localStorage.setItem('cm_prov',prov)}catch(e){}bub('c',P[prov]?prov+' key saved in this browser only.':'Key cleared.')};
+$('ks').onclick=function(){P[prov]=$('kk').value.trim();gm=null;try{localStorage.setItem('cm_key_'+prov,P[prov]);localStorage.setItem('cm_prov',prov)}catch(e){}bub('c',P[prov]?prov+' key saved in this browser only.':'Key cleared.')};
 ['How do I start a 3×3?','What is 4×4 parity?','Solve a Pyraminx step by step','Last layer of 2×2'].forEach(function(t){var b=document.createElement('button');b.textContent=t;b.onclick=function(){send(t)};$('chips').appendChild(b)});
 function tk(s){return s.toLowerCase().split(/[^a-z0-9]+/).filter(function(w){return w.length>2})}
 function local(t){var q=tk(t),best=[cur,stepI],bs=0;
@@ -237,14 +258,23 @@ async function call(url,opt){
     catch(e){clearTimeout(tm);if(e.status||i===2)throw e;await wait(800*Math.pow(2,i))}
   }
 }
+var gm=null;
+async function groqModels(){if(gm)return gm;var pref=['openai/gpt-oss-120b','openai/gpt-oss-20b'];
+  try{var r=await fetch('https://api.groq.com/openai/v1/models',{headers:{authorization:'Bearer '+P.groq}});var d=await r.json();
+    var ids=(d.data||[]).map(function(x){return x.id}).filter(function(i){return !/whisper|guard|safeguard|tts|orpheus|playai|compound/i.test(i)});
+    gm=pref.filter(function(p){return ids.indexOf(p)>-1}).concat(ids.filter(function(i){return pref.indexOf(i)<0})).slice(0,4);if(!gm.length)gm=pref}
+  catch(e){gm=pref}return gm}
 async function ai(){
   if(prov==='groq'){
-    var models=['llama-3.3-70b-versatile','llama-3.1-8b-instant'];
+    var models=await groqModels(),err;
     for(var m=0;m<models.length;m++){
-      try{var d=await call('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'content-type':'application/json','authorization':'Bearer '+P.groq},body:JSON.stringify({model:models[m],temperature:.4,max_tokens:600,messages:[{role:'system',content:sysP()}].concat(turns)})});
-        return d.choices[0].message.content}
-      catch(e){if(m===models.length-1||e.status===401)throw e}
+      try{var body={model:models[m],temperature:.4,max_completion_tokens:1500,messages:[{role:'system',content:sysP()}].concat(turns)};
+        if(/gpt-oss/.test(models[m]))body.reasoning_effort='low';
+        var d=await call('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'content-type':'application/json','authorization':'Bearer '+P.groq},body:JSON.stringify(body)});
+        var c=d.choices[0].message.content;if(c)return c;throw new Error('Empty answer')}
+      catch(e){err=e;if(e.status===401)throw e}
     }
+    throw err;
   }
   var d2=await call('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':P.anthropic,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:600,system:sysP(),messages:turns})});
   return d2.content.map(function(c){return c.text||''}).join('');
@@ -287,6 +317,10 @@ $('lhB').onclick=function(){if(!hist.length){$('lh').textContent='Nothing to und
 $('ln').onclick=doNext;$('la').onclick=autoPlay;
 $('na').onclick=function(){applySeq($('ni').value)};$('ni').addEventListener('keydown',function(e){if(e.key==='Enter')applySeq($('ni').value)});
 $('nc').onclick=function(){if(!lastScr){$('ne').textContent='Scramble first, then copy.';return}$('ni').value=lastScr;try{navigator.clipboard.writeText(lastScr)}catch(e){}$('ne').textContent='Scramble copied. Apply it later to replay it.'};
+document.querySelectorAll('[data-alg]').forEach(function(b){b.onclick=function(){$('ni').value=b.dataset.alg;applySeq(b.dataset.alg)}});
+(function(){var r=document.documentElement;try{var t=localStorage.getItem('cm_theme');if(t)r.dataset.theme=t}catch(e){}
+$('th').onclick=function(){var dark=r.dataset.theme?r.dataset.theme==='dark':!matchMedia('(prefers-color-scheme:light)').matches;r.dataset.theme=dark?'light':'dark';try{localStorage.setItem('cm_theme',r.dataset.theme)}catch(e){}kick()};
+$('sh').onclick=function(){var d={title:'CubeMind Pro',text:'Learn to solve any twisty puzzle in 3D',url:location.href};if(navigator.share)navigator.share(d).catch(function(){});else{try{navigator.clipboard.writeText(location.href)}catch(e){}$('sh').textContent='Link copied'}}})();
 mk();pick('3');
 })();
 </script>
